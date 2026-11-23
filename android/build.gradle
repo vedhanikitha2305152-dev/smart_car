@@ -1,0 +1,33 @@
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+class FlutterExtensionBridge {
+    int compileSdkVersion = 34
+    int minSdkVersion = 26
+    int targetSdkVersion = 34
+    String ndkVersion = "25.1.8937393"
+}
+
+subprojects {
+    project.plugins.withId("com.android.library") {
+        if (!project.android.extensions.findByName("flutter")) {
+            project.android.extensions.create("flutter", FlutterExtensionBridge)
+        }
+    }
+}
+
+rootProject.buildDir = "../build"
+subprojects {
+    project.buildDir = "${rootProject.buildDir}/${project.name}"
+}
+subprojects {
+    project.evaluationDependsOn(":app")
+}
+
+tasks.register("clean", Delete) {
+    delete rootProject.buildDir
+}

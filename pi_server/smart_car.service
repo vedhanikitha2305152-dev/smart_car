@@ -1,0 +1,17 @@
+[Unit]
+Description=Smart Car Raspberry Pi 5 BLE Peripheral Server
+After=bluetooth.target network.target
+Wants=bluetooth.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/smart_car
+ExecStart=/usr/bin/python3 /opt/smart_car/main.py
+Restart=always
+RestartSec=3
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
